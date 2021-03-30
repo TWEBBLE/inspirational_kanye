@@ -1,6 +1,6 @@
-# Pav & Tom's Data Engineering Project
+# Kanye rest data pipeline
 
-In this project we're going to connect the code on our machines with our snowflake database using Python. This will involve writing a program that will act as a mediator between our terminals and snowflake.
+This project connects to the kanye.rest API, receives Kanye quotes, process them, stores them in a Snowflake data warehouse and creates a wordcloud of his most commonly used phrases.
 
 ## How to run the code
 This project relies on environment variables for user authentication. You will need to export the following variables to your shell or include them in the `.env` file:
