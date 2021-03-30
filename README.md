@@ -36,3 +36,13 @@ SNOWFLAKE_PASSWORD = "yourpass"
 The pipelines depends on a warehouse, create that with the following code:
 
     CREATE OR REPLACE WAREHOUSE CI_CD WITH WAREHOUSE_SIZE ='X-SMALL';
+
+### Region
+
+Note: your region may include additional identifier, for example the following two regions are valid:
+
+    SNOWFLAKE_REGION = eu-west-2.aws
+
+and
+
+    SNOWFLAKE_REGION = eu-west-1
