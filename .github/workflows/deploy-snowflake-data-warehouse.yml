@@ -37,6 +37,7 @@ jobs:
         pytest -vv .
 
   deploy-data-warhouse:
+    # needs: run-unit-tests
     runs-on: ubuntu-latest
     env:
       SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
