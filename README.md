@@ -21,3 +21,18 @@ This project relies on environment variables for user authentication. You will n
     python3 query_snowflake.py
 
 This will populate your database on snowflake with data on every match in FIFA World Cup history.
+
+## Continuous Integration
+
+The project includes automated deployment pipelines using GitHub Actions.
+
+### User
+This is dependent on having a programmatic user, it must be created in Snowflake for the deployment to run. The user should be stored in GitHub secrets.
+
+SNOWFLAKE_USER = CI_CD
+SNOWFLAKE_PASSWORD = "yourpass"
+
+### Warehouse
+The pipelines depends on a warehouse, create that with the following code:
+
+    CREATE OR REPLACE WAREHOUSE CI_CD WITH WAREHOUSE_SIZE ='X-SMALL';

@@ -36,7 +36,7 @@ jobs:
       run: |
         pytest -vv .
 
-  deploy-data-warhouse:
+  deploy-data-warehouse:
     # needs: run-unit-tests
     runs-on: ubuntu-latest
     env:
@@ -45,7 +45,8 @@ jobs:
       SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
       SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
       SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
-      SNOWFLAKE_WAREHOUSE: COMPUTE_WH
+      SNOWFLAKE_WAREHOUSE: CI_CD
+
     steps:
     - name: checkout-code
       uses: actions/checkout@v2
@@ -72,4 +73,7 @@ jobs:
     - name: create-dev-environment
       env:
         ENV: DEV
-      run: python ./snowflake_account_setup_and_db_build.py
+      # run: python ./snowflake_account_setup_and_db_build.py
+      run: |
+        ls
+        python ./validate.py
