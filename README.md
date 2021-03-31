@@ -1,6 +1,6 @@
-# Pav & Tom's Data Engineering Project
+# Kanye rest data pipeline
 
-In this project we're going to connect the code on our machines with our snowflake database using Python. This will involve writing a program that will act as a mediator between our terminals and snowflake.
+This project connects to the kanye.rest API, receives Kanye quotes, process them, stores them in a Snowflake data warehouse and creates a wordcloud of his most commonly used phrases.
 
 ## How to run the code
 This project relies on environment variables for user authentication. You will need to export the following variables to your shell or include them in the `.env` file:
@@ -21,3 +21,28 @@ This project relies on environment variables for user authentication. You will n
     python3 query_snowflake.py
 
 This will populate your database on snowflake with data on every match in FIFA World Cup history.
+
+## Continuous Integration
+
+The project includes automated deployment pipelines using GitHub Actions.
+
+### User
+This is dependent on having a programmatic user, it must be created in Snowflake for the deployment to run. The user should be stored in GitHub secrets.
+
+SNOWFLAKE_USER = CI_CD
+SNOWFLAKE_PASSWORD = "yourpass"
+
+### Warehouse
+The pipelines depends on a warehouse, create that with the following code:
+
+    CREATE OR REPLACE WAREHOUSE CI_CD WITH WAREHOUSE_SIZE ='X-SMALL';
+
+### Region
+
+Note: your region may include additional identifier, for example the following two regions are valid:
+
+    SNOWFLAKE_REGION = eu-west-2.aws
+
+and
+
+    SNOWFLAKE_REGION = eu-west-1
