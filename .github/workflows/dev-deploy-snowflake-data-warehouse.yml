@@ -1,4 +1,4 @@
-name: deploy-snowflake-data-warehouse
+name: deploy-dev-snowflake-data-warehouse-on-push
 
 on:
   push:

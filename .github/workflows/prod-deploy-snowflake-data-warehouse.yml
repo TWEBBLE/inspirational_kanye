@@ -1,4 +1,4 @@
-name: deploy-snowflake-data-warehouse
+name: deploy-prod-snowflake-data-warehouse-merge-to-main
 
 on:
   push:
