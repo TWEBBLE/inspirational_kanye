@@ -1,10 +1,8 @@
-name: deploy-snowflake-data-warehouse
+name: deploy-staging-snowflake-data-warehouse-on-pull-request
 
 on:
   pull_request:
-    branches-ignore:
-      - main
-
+    
 jobs:
   run-unit-tests:
     runs-on: ubuntu-latest
