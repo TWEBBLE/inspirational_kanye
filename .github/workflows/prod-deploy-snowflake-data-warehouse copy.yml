@@ -1,0 +1,77 @@
+name: deploy-snowflake-data-warehouse
+
+on:
+  merge:
+
+jobs:
+  run-unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout-code
+      uses: actions/checkout@v2
+
+    - name: cache-python-requirements
+      uses: actions/cache@v2
+      id: pip-cache
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip
+
+    - name: setup-python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: install-python-requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip install --requirement requirements.txt
+
+    - name: run-unit-tests
+      run: |
+        pytest -vv .
+
+  deploy-data-warehouse:
+    needs: run-unit-tests
+    runs-on: ubuntu-latest
+    env:
+      SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      SNOWFLAKE_ROLE: SYSADMIN
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
+      SNOWFLAKE_WAREHOUSE: CI_CD
+
+    steps:
+    - name: checkout-code
+      uses: actions/checkout@v2
+
+    - name: cache-python-requirements
+      uses: actions/cache@v2
+      id: pip-cache
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+
+    - name: setup-python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: install-python-requirements
+      run: |
+        python -m pip install --upgrade pip
+        pip install --requirement requirements.txt
+
+    - name: validate-python-to-snowflake-connection
+      run: python ./validate.py
+
+    - name: create-prod-environment
+      env:
+        ENV: PROD
+      run: python ./snowflake_account_setup_and_db_build.py
