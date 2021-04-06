@@ -1,7 +1,7 @@
 name: deploy-snowflake-data-warehouse
 
 on:
-  pull:
+  pull_request:
     branches-ignore:
       - main
 

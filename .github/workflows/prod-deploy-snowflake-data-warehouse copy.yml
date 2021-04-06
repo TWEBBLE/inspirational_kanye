@@ -1,7 +1,9 @@
 name: deploy-snowflake-data-warehouse
 
 on:
-  merge:
+  push:
+    branch: 
+      - main
 
 jobs:
   run-unit-tests:
