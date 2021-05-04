@@ -2,6 +2,7 @@ from snowflake_connector import SnowflakeConnector, snowflake_connection_details
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import glob
 
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -25,25 +26,30 @@ create_db_kanye = snowflake_instance.run_sql(
 )
 result = snowflake_instance.run_sql(cursor, "SHOW DATABASES;")
 df = snowflake_instance.fetch_dataframe_from_sql(cursor, "SHOW DATABASES;")
-print(df)
+# print(df)
 
 create_schema_quotes = snowflake_instance.run_sql(
     cursor,
     f"CREATE SCHEMA IF NOT EXISTS kanye_{os.environ.get('ENV', 'DEV')}.quotes;",
 )
 
-table_ddl_statement = """ "quote" VARCHAR """
+table_ddl_statement = """ "quote" VARIANT """
 create_table_complete = snowflake_instance.run_sql(
     cursor,
     f"CREATE TABLE IF NOT EXISTS kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete ({table_ddl_statement});",
 )
-# data_putter = snowflake_instance.run_sql(
-#     cursor, f"PUT file://WorldCupPlayers.csv @~ auto_compress=false;"
-# )
-# read = snowflake_instance.run_sql(cursor, f"LIST @~")
-# print(read)
 
-# data_copier = snowflake_instance.run_sql(
-#     cursor,
-#     f"""COPY INTO kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete from @~/WorldCupPlayers.csv FILE_FORMAT = (TYPE = 'csv' SKIP_HEADER = 1);""",
-# )
+kanye_glob = glob.glob("kanye_quote_data/**/*.json", recursive=True)
+print(kanye_glob)
+
+read = snowflake_instance.run_sql(cursor, f"LIST @~")
+
+for quote in kanye_glob:
+    snowflake_instance.run_sql(
+        cursor, f"PUT file://{quote} @~ auto_compress=false;"
+    )
+
+    data_copier = snowflake_instance.run_sql(
+        cursor,
+        f"""COPY INTO kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete from @~/{Path(quote).name} FILE_FORMAT = (TYPE = 'json');""",
+    )
