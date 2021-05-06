@@ -45,11 +45,9 @@ kanye_glob = glob.glob("kanye_quote_data/**/*.json", recursive=True)
 read = snowflake_instance.run_sql(cursor, f"LIST @~")
 
 for quote in kanye_glob:
-    snowflake_instance.run_sql(
-        cursor, f"PUT file://{quote} @~ auto_compress=false;"
-    )
+    snowflake_instance.run_sql(cursor, f"PUT file://{quote} @~ auto_compress=false;")
 
     data_copier = snowflake_instance.run_sql(
         cursor,
-        f"""COPY INTO kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete from @~/{Path(quote).name} FILE_FORMAT = (TYPE = 'json');"""
+        f"""COPY INTO kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete from @~/{Path(quote).name} FILE_FORMAT = (TYPE = 'json');""",
     )

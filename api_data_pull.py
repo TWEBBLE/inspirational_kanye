@@ -4,6 +4,7 @@ import datetime as dt
 import os
 from pathlib import Path
 
+
 def kanye_downloader():
     r = requests.get("https://api.kanye.rest/").json()
     json_object = json.dumps(r, indent=4)
@@ -14,11 +15,13 @@ def kanye_downloader():
         outfile.write(json_object)
     return
 
+
 def make_directory(now):
     time_dir_name = now.strftime("%Y/%m/%d/%H/%M")
-    dir_name = (f"./kanye_quote_data/{time_dir_name}")
+    dir_name = f"./kanye_quote_data/{time_dir_name}"
     Path(dir_name).mkdir(parents=True, exist_ok=True)
     return dir_name
+
 
 if __name__ == "__main__":
     kanye_downloader()
