@@ -46,3 +46,7 @@ Note: your region may include additional identifier, for example the following t
 and
 
     SNOWFLAKE_REGION = eu-west-1
+
+### Workflow
+
+![alt text](pipeline_diagram.png)
