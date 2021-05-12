@@ -21,4 +21,6 @@ cursor = snowflake_instance.set_session_parameters(
     role="SYSADMIN", warehouse="COMPUTE_WH"
 )
 create_view = snowflake_instance.run_sql(
-    cursor, f'''CREATE VIEW IF NOT EXISTS "KANYE_{os.environ.get("ENV", "DEV")}"."QUOTES"."Inspirational_Teachings_of_Mr_West" AS (SELECT "quote": quote AS Quotes FROM "KANYE_DEV"."QUOTES"."COMPLETE");''')
+    cursor,
+    f"""CREATE VIEW IF NOT EXISTS "KANYE_{os.environ.get("ENV", "DEV")}"."QUOTES"."Inspirational_Teachings_of_Mr_West" AS (SELECT "quote": quote AS Quotes FROM "KANYE_DEV"."QUOTES"."COMPLETE");""",
+)
