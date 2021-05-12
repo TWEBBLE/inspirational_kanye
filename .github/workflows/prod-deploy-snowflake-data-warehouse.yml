@@ -82,4 +82,4 @@ jobs:
       run: python ./data_loader.py
       
     - name: data-analysis
-      run: create_view_statement.py  
+      run: python ./create_view_statement.py    
