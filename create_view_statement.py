@@ -2,7 +2,6 @@ from snowflake_connector import SnowflakeConnector, snowflake_connection_details
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import glob
 
 env_path = Path(".") / ".env"
 load_dotenv(dotenv_path=env_path)
@@ -21,19 +20,5 @@ snowflake_instance = SnowflakeConnector(snowflake_connection_details)
 cursor = snowflake_instance.set_session_parameters(
     role="SYSADMIN", warehouse="COMPUTE_WH"
 )
-create_db_kanye = snowflake_instance.run_sql(
-    cursor, f"CREATE DATABASE IF NOT EXISTS kanye_{os.environ.get('ENV', 'DEV')};"
-)
-result = snowflake_instance.run_sql(cursor, "SHOW DATABASES;")
-df = snowflake_instance.fetch_dataframe_from_sql(cursor, "SHOW DATABASES;")
-
-create_schema_quotes = snowflake_instance.run_sql(
-    cursor,
-    f"CREATE SCHEMA IF NOT EXISTS kanye_{os.environ.get('ENV', 'DEV')}.quotes;",
-)
-
-table_ddl_statement = """ "quote" VARIANT """
-create_table_complete = snowflake_instance.run_sql(
-    cursor,
-    f"CREATE TABLE IF NOT EXISTS kanye_{os.environ.get('ENV', 'DEV')}.quotes.complete ({table_ddl_statement});",
-)
+create_view = snowflake_instance.run_sql(
+    cursor, f'''CREATE VIEW IF NOT EXISTS "KANYE_{os.environ.get("ENV", "DEV")}"."QUOTES"."Inspirational_Teachings_of_Mr_West" AS (SELECT "quote": quote AS Quotes FROM "KANYE_DEV"."QUOTES"."COMPLETE");''')
