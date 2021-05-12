@@ -77,3 +77,9 @@ jobs:
       env:
         ENV: PROD
       run: python ./snowflake_account_setup_and_db_build.py
+
+    - name: load-data
+      run: python ./data_loader.py
+      
+    - name: data-analysis
+      run: create_view_statement.py  

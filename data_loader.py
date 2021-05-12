@@ -23,13 +23,11 @@ cursor = snowflake_instance.set_session_parameters(
 )
 
 kanye_glob = glob.glob("kanye_quote_data/**/*.json", recursive=True)
-# print(kanye_glob)
 
 read = snowflake_instance.run_sql(cursor, f"LIST @~")
 
 for quote in kanye_glob:
-    snowflake_instance.run_sql(
-        cursor, f"PUT file://{quote} @~ auto_compress=false;")
+    snowflake_instance.run_sql(cursor, f"PUT file://{quote} @~ auto_compress=false;")
 
     data_copier = snowflake_instance.run_sql(
         cursor,
@@ -38,4 +36,4 @@ for quote in kanye_glob:
     try:
         print(f"File: {data_copier[0]['file']}\nStatus: {data_copier[0]['status']}")
     except:
-        print(data_copier[0]["status"]) 
+        print(data_copier[0]["status"])
