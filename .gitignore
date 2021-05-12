@@ -2,3 +2,6 @@ __pycache__
 
 .env
 .venv/
+
+pipeline_diagram.drawio
+pipeline_diagram.png
