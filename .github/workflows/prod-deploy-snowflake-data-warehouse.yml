@@ -1,6 +1,6 @@
 name: deploy-prod-snowflake-data-warehouse-merge-to-main
 
-on:
+on: [push, workflow_dispatch]
   push:
     branches:
       - main
@@ -80,6 +80,6 @@ jobs:
 
     - name: load-data
       run: python ./data_loader.py
-      
+
     - name: data-analysis
-      run: python ./create_view_statement.py    
+      run: python ./create_view_statement.py
