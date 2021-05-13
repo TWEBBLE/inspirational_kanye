@@ -1,7 +1,10 @@
 name: deploy-dev-snowflake-data-warehouse-on-push
 
-on: [push, workflow_dispatch]
+on:
   push:
+    branches-ignore:
+      - main
+    workflow_dispatch:
     branches-ignore:
       - main
 
