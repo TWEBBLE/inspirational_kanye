@@ -2,6 +2,7 @@ name: deploy-staging-snowflake-data-warehouse-on-pull-request
 
 on:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   run-unit-tests:
@@ -78,6 +79,6 @@ jobs:
 
     - name: load-data
       run: python ./data_loader.py
-      
+
     - name: data-analysis
-      run: python ./create_view_statement.py  
+      run: python ./create_view_statement.py
