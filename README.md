@@ -20,7 +20,7 @@ This project relies on environment variables for user authentication. You will n
 
     python3 query_snowflake.py
 
-This will populate your database on snowflake with data on every match in FIFA World Cup history.
+This will populate your database on snowflake with data.
 
 ## Continuous Integration
 
